@@ -8,11 +8,13 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.web.client.support.RestClientHttpServiceGroupConfigurer;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.registry.AbstractHttpServiceRegistrar;
+import org.springframework.web.service.registry.ImportHttpServices;
 
-//@ImportHttpServices(group = "cats", types = {CatFactClient.class})
-@Import(HttpClientsConfiguration.MyRegistrar.class)
+@ImportHttpServices(group = "cats", types = {CatFactClient.class})
+//@Import(HttpClientsConfiguration.MyRegistrar.class)
 @Configuration
 class HttpClientsConfiguration {
+/*
 
     static class MyRegistrar extends AbstractHttpServiceRegistrar {
 
@@ -24,19 +26,22 @@ class HttpClientsConfiguration {
 
     @Bean
     RestClientHttpServiceGroupConfigurer configurer() {
-        return groups -> groups.filterByName("cats").forEachClient(
-                (_, clientBuilder) -> clientBuilder
-                    .defaultHeaders(httpHeaders ->
-                            httpHeaders.setBasicAuth("user", "password")
-                    )
-        );
+        return groups -> groups
+                .filterByName("cats")
+                .forEachClient((_, clientBuilder) -> clientBuilder
+                        .defaultHeaders(httpHeaders ->
+                                httpHeaders.setBasicAuth("user", "password")
+                        )
+                );
     }
 
+*/
     @Bean
     ApplicationRunner runner(CatFactClient client) {
         return _ -> System.out.println(client.fact());
     }
 }
+
 
 interface CatFactClient {
 
